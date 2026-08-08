@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaieteur Prep — CSEC Prep, Done Right</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;600;700&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root{
+    --forest-deep:#12372A;
+    --forest-mid:#1F5C45;
+    --forest-line:#2E7355;
+    --mist:#F4F8F5;
+    --paper:#FFFFFF;
+    --stone:#5B6B66;
+    --stone-light:#8B9A95;
+    --gold:#C89B3C;
+    --gold-light:#E4C578;
+    --ink:#10201A;
+    --border:#DCE6E0;
+    --danger:#B5502F;
+    --radius:14px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--mist);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  
+  h1,h2,h3,h4{
+    font-family:'Zilla Slab', serif;
+    font-weight:700;
+    margin:0;
+    color:var(--forest-deep);
+  }
+  h1 { font-size: clamp(2.5rem, 5vw, 3.8rem); line-height: 1.1; }
+  h2 { font-size: clamp(2rem, 3.5vw, 2.75rem); }
+  h3 { font-size: 1.25rem; }
+
+  .mono{font-family:'Space Mono', monospace;}
+  a{color:inherit;}
+  img,svg{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;}
+
+  :focus-visible{
+    outline:3px solid var(--gold);
+    outline-offset:2px;
+  }
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+
+  /* Nav */
+  .nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(244,248,245,0.85);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+    transition:padding 0.3s ease;
+  }
+  .nav-inner{
+    max-width:1120px;margin:0 auto;padding:20px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+    transition:padding 0.3s ease;
+  }
+  .nav.scrolled .nav-inner{ padding:12px 24px; }
+  .logo{
+    display:flex;align-items:center;gap:10px;
+    font-family:'Zilla Slab',serif;font-weight:700;font-size:1.3rem;
+    color:var(--forest-deep);text-decoration:none;
+  }
+  .logo-bubble{
+    width:22px;height:22px;border-radius:50%;
+    border:2.5px solid var(--forest-deep);
+    background:var(--forest-deep);
+    flex-shrink:0;
+  }
+  .nav-links{
+    display:flex;gap:32px;align-items:center;
+    font-size:0.95rem;font-weight:500;
+  }
+  .nav-links a{text-decoration:none;color:var(--stone);transition:color .15s;}
+  .nav-links a:hover{color:var(--forest-deep);}
+  
+  /* Buttons */
+  .btn-primary, .nav-cta, .submit-btn{
+    background:var(--forest-deep);color:var(--mist);
+    padding:16px 30px;border-radius:var(--radius);
+    font-weight:600;font-size:1rem;text-decoration:none;
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    border:none;
+    box-shadow: 0 4px 12px rgba(18,55,42,0.15);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background 0.2s ease;
+  }
+  .btn-primary:hover, .nav-cta:hover, .submit-btn:hover{
+    background:var(--forest-mid);
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(18,55,42,0.25);
+  }
+  .btn-secondary, .submit-btn-scnd{
+    background:var(--paper);color:var(--forest-deep);
+    padding:16px 30px;border-radius:var(--radius);border:1.5px solid var(--border);
+    font-weight:600;font-size:1rem;text-decoration:none;
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .btn-secondary:hover, .submit-btn-scnd:hover{
+    border-color:var(--forest-deep);
+    transform: scale(1.03);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  }
+  
+  .nav-cta{ padding: 10px 22px; font-size: 0.9rem; }
+  .nav-toggle{display:none;background:none;border:none;padding:8px;}
+
+  /* Hero */
+  .hero{
+    padding: 120px 0 96px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:64px;
+    align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'Space Mono',monospace;
+    font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--forest-mid);
+    background:#E4EEE8;
+    padding:8px 16px;border-radius:999px;
+    margin-bottom:24px;
+  }
+  .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);}
+  .hero h1 em{ font-style:normal; color:var(--gold); }
+  .hero-sub{ font-size:1.15rem;color:var(--stone); max-width:48ch;margin-top:24px;margin-bottom:36px; }
+  .hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:40px;}
+
+  /* 1. Free Lesson Card */
+  .free-lesson-card{
+    background:var(--paper);
+    border:2px solid var(--gold);
+    border-radius:18px;
+    padding:28px;
+    box-shadow:0 20px 40px -15px rgba(200,155,60,0.25);
+  }
+  .video-placeholder{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    background:var(--forest-deep);
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--mist);
+    cursor:pointer;
+    overflow:hidden;
+    margin-top:16px;
+  }
+  .play-btn{
+    width:56px;height:56px;border-radius:50%;
+    background:var(--gold);color:var(--forest-deep);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.3);
+    transition:transform 0.2s ease;
+  }
+  .video-placeholder:hover .play-btn{ transform:scale(1.12); }
+
+  /* Trust Bar */
+  .trust-bar{
+    background:var(--paper);
+    border-y:1px solid var(--border);
+    padding:28px 0;
+  }
+  .trust-flex{
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:20px;
+  }
+  .trust-item{
+    display:flex;align-items:center;gap:10px;
+    font-weight:600;font-size:0.95rem;color:var(--forest-deep);
+  }
+  .trust-item i{color:var(--gold);width:20px;height:20px;}
+
+  /* Sections */
+  section{padding:112px 0;}
+  .section-head{max-width:680px;margin-bottom:64px;}
+  .section-head .eyebrow{margin-bottom:16px;}
+  .section-head p{color:var(--stone);font-size:1.1rem;margin-top:16px;}
+
+  .grid-4{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:24px; }
+  .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:32px;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover{
+    border-color:var(--forest-mid);
+    transform:translateY(-3px);
+    box-shadow: 0 12px 30px rgba(18,55,42,0.08);
+  }
+  .card-icon{
+    width:48px;height:48px;border-radius:10px;
+    background:#E4EEE8;color:var(--forest-deep);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:20px;
+  }
+
+  /* 2. Mock Dashboard UI Visual */
+  .dashboard-mockup{
+    background:var(--paper);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:24px;
+    box-shadow:0 24px 60px -20px rgba(18,55,42,0.12);
+  }
+  .db-header{ display:flex; justify-content:space-between; align-items:center; padding-bottom:16px; border-bottom:1px solid var(--border); margin-bottom:20px; }
+  .db-progress-bar{ width:100%; height:10px; background:var(--mist); border-radius:999px; overflow:hidden; margin:8px 0 16px; }
+  .db-progress-fill{ width:68%; height:100%; background:var(--forest-mid); border-radius:999px; }
+  .db-chapter{ display:flex; justify-content:space-between; align-items:center; padding:12px; background:var(--mist); border-radius:8px; margin-bottom:10px; font-size:0.9rem; }
+
+  /* 4. Timeline / Roadmap */
+  .timeline{ display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:16px; position:relative; }
+  .timeline-step{ background:var(--paper); border:1px solid var(--border); border-radius:var(--radius); padding:20px; text-align:center; }
+  .timeline-number{ width:32px;height:32px;border-radius:50%;background:var(--forest-deep);color:var(--mist);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-family:'Space Mono',monospace;font-weight:700; }
+
+  /* Comparison Table */
+  .comparison-table-wrapper{ overflow-x:auto; border-radius:var(--radius); border:1px solid var(--border); background:var(--paper); }
+  .comparison-table{ width:100%; border-collapse:collapse; text-align:left; }
+  .comparison-table th, .comparison-table td{ padding:20px 24px; border-bottom:1px solid var(--border); }
+  .comparison-table th{ background:var(--mist); font-family:'Zilla Slab', serif; font-size:1.2rem; color:var(--forest-deep); }
+  .text-danger{color:var(--danger);}
+  .text-success{color:var(--forest-mid);}
+
+  /* Pricing */
+  .pricing{background:var(--forest-deep);color:var(--mist);}
+  .pricing .section-head h2{color:var(--mist);}
+  .pricing .section-head p{color:#B9CCC2;}
+  .pricing .eyebrow{background:rgba(255,255,255,0.1);color:var(--gold-light);}
+  .pricing .eyebrow::before{background:var(--gold-light);}
+  .price-grid{ display:grid;grid-template-columns:1fr 1fr;gap:32px; }
+  .price-card{ background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); border-radius:var(--radius);padding:40px 32px; }
+  .price-card.featured{ background:var(--paper);color:var(--ink); border-color:var(--gold); position:relative; }
+  .price-flag{ position:absolute;top:-14px;right:24px; background:var(--gold);color:var(--forest-deep); font-family:'Space Mono',monospace;font-size:0.75rem;font-weight:700; padding:6px 14px;border-radius:999px; }
+  .price-amount{ font-family:'Zilla Slab',serif;font-weight:700; font-size:2.8rem;margin:12px 0;color:inherit; }
+  .price-card.featured .price-amount{color:var(--forest-deep);}
+  .price-amount span{font-size:1rem;font-weight:500;font-family:'Work Sans',sans-serif;opacity:0.65;}
+  .price-list{list-style:none;padding:0;margin:28px 0 0;font-size:0.95rem;}
+  .price-list li{ display:flex;gap:12px;align-items:center; padding:10px 0; }
+
+  /* 6. Guarantee Banner */
+  .guarantee-box{ background:rgba(200,155,60,0.12); border:1.5px dashed var(--gold); border-radius:var(--radius); padding:24px; text-align:center; margin-top:32px; }
+
+  /* FAQ */
+  .faq-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .faq-item{ background:var(--paper); border:1px solid var(--border); border-radius:var(--radius); padding:28px; }
+
+  /* Signup */
+  .signup-panel{ display:grid;grid-template-columns:0.9fr 1.1fr; border:1px solid var(--border); border-radius:18px; overflow:hidden; box-shadow: 0 16px 40px rgba(0,0,0,0.04); }
+  .signup-side{ background:var(--forest-deep);color:var(--mist); padding:56px 40px; }
+  .signup-side h3{color:var(--mist);font-size:1.6rem;margin-bottom:16px;}
+  .signup-side p{color:#B9CCC2;font-size:0.95rem;margin-bottom:28px;}
+  .signup-side ul{list-style:none;padding:0;margin:0;}
+  .signup-side li{ display:flex;gap:12px;padding:12px 0; border-top:1px solid rgba(255,255,255,0.12); font-size:0.9rem; }
+  .signup-form{padding:56px 40px;background:var(--paper);}
+  .field{margin-bottom:24px;}
+  .field label{ display:block;font-size:0.88rem;font-weight:600;margin-bottom:8px;color:var(--ink); }
+  .field input{ width:100%;padding:14px 16px;border-radius:10px; border:1.5px solid var(--border);font-family:inherit;font-size:0.95rem; background:var(--mist);color:var(--ink); }
+  .subject-checks{ display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+  .check-item{ display:flex;align-items:center;gap:10px; border:1.5px solid var(--border);border-radius:10px; padding:12px 14px;font-size:0.88rem;cursor:pointer; }
+  .check-item:has(input:checked){ border-color:var(--forest-deep);background:#EAF2ED; }
+  .check-item input{width:16px;height:16px;accent-color:var(--forest-deep);margin:0;flex-shrink:0;}
+  .price-preview{ margin-top:24px;padding:20px;border-radius:12px; background:var(--mist);border:1px dashed var(--border); font-size:0.95rem; }
+
+  /* Footer */
+  footer{ background:var(--ink);color:#9FB3AB; padding:64px 0 32px; }
+  .footer-grid{ display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,0.1); margin-bottom:32px; }
+  .footer-logo{color:var(--mist);font-family:'Zilla Slab',serif;font-weight:700;font-size:1.2rem;display:flex;gap:10px;align-items:center;margin-bottom:16px;}
+  .footer-col h4{color:var(--mist);font-size:0.95rem;margin-bottom:16px;}
+  .footer-col ul{list-style:none;padding:0;margin:0;}
+  .footer-col li{margin-bottom:10px;}
+  .footer-col a{text-decoration:none;color:#9FB3AB;font-size:0.9rem;transition:color 0.15s;}
+  .footer-col a:hover{color:var(--mist);}
+  .footer-bottom{font-size:0.8rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+
+  @media (max-width: 860px){
+    .hero-grid, .grid-2, .price-grid, .signup-panel, .faq-grid{grid-template-columns:1fr; gap:32px;}
+    .nav-links{display:none;}
+    .nav-toggle{display:block;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    section{padding:72px 0;}
+    .btn-primary, .btn-secondary, .submit-btn, .submit-btn-scnd{ width:100%; min-height:52px; }
+  }
+  @media (max-width: 480px){
+    .subject-checks, .footer-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="navbar">
+  <div class="nav-inner">
+    <a href="#top" class="logo"><span class="logo-bubble"></span>Kaieteur Prep</a>
+    <div class="nav-links">
+      <a href="#why">Why Us</a>
+      <a href="#subjects">Subjects</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#signup" class="nav-cta">Get started</a>
+    </div>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO WITH INTEGRATED FREE LESSON PREVIEW -->
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">From confused to confident. One lesson at a time.</div>
+      <h1>Every topic. Every subject. <em>One sitting at a time.</em></h1>
+      <p class="hero-sub">Master every CSEC topic through clear explanations, check your understanding exercises, mock exams and mastery tracking.</p>
+      <div class="hero-actions">
+        <a href="#signup" class="btn-primary">Start your first subject <i data-lucide="arrow-right"></i></a>
+        <a href="#demo-lesson" class="btn-secondary"><i data-lucide="play-circle"></i> Try Lesson 1 Free</a>
+      </div>
+    </div>
+
+    <!-- 1. ADD A "FREE LESSON" PREVIEW CARD -->
+    <div class="free-lesson-card" id="demo-lesson">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span class="mono" style="font-size:0.75rem; color:var(--gold); font-weight:700;">FREE SAMPLE LESSON</span>
+        <span class="mono" style="font-size:0.75rem; color:var(--stone);">22 MINS</span>
+      </div>
+      <h3 style="margin-top:4px;">Mathematics: Section 1 — Consumer Arithmetic</h3>
+      <div class="video-placeholder">
+        <div class="play-btn"><i data-lucide="play" style="margin-left:4px;"></i></div>
+      </div>
+      <p style="font-size:0.85rem; color:var(--stone); margin-top:12px; text-align:center;">
+        ▶ Watch the first lesson free — no credit card or account needed.
+      </p>
+    </div>
+  </div>
+</header>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="wrap trust-flex">
+    <div class="trust-item"><i data-lucide="check-circle-2"></i> Official CXC Syllabus</div>
+    <div class="trust-item"><i data-lucide="clock"></i> Learn Anytime</div>
+    <div class="trust-item"><i data-lucide="book-open"></i> Practice Every Topic</div>
+    <div class="trust-item"><i data-lucide="smartphone"></i> Study Anywhere</div>
+  </div>
+</div>
+
+<!-- 3. ADD "WHO IS THIS FOR?" -->
+<section id="who">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Targeted Guidance</div>
+      <h2>Who Is Kaieteur Prep For?</h2>
+    </div>
+    <div class="grid-4">
+      <div class="card">
+        <i data-lucide="user-x" style="color:var(--gold); margin-bottom:12px;"></i>
+        <h3>Catch-Up Support</h3>
+        <p style="color:var(--stone); margin-top:8px;">Students who struggle to keep up in standard classroom settings.</p>
+      </div>
+      <div class="card">
+        <i data-lucide="graduation-cap" style="color:var(--gold); margin-bottom:12px;"></i>
+        <h3>CSEC Candidates</h3>
+        <p style="color:var(--stone); margin-top:8px;">Students actively preparing for upcoming May/June or January sitting.</p>
+      </div>
+      <div class="card">
+        <i data-lucide="sliders" style="color:var(--gold); margin-bottom:12px;"></i>
+        <h3>Self-Paced Learners</h3>
+        <p style="color:var(--stone); margin-top:8px;">Students who want to revise, rewind, and master topics at their own pace.</p>
+      </div>
+      <div class="card">
+        <i data-lucide="shield-check" style="color:var(--gold); margin-bottom:12px;"></i>
+        <h3>Proactive Parents</h3>
+        <p style="color:var(--stone); margin-top:8px;">Parents looking for structured learning and clear progress visibility.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. SHOW ACTUAL STUDENT DASHBOARD -->
+<section style="background:var(--paper);">
+  <div class="wrap grid-2" style="align-items:center;">
+    <div>
+      <div class="eyebrow">Real Dashboard UI</div>
+      <h2>Know Exactly Where You Stand</h2>
+      <p style="color:var(--stone); margin-top:16px;">
+        No guesswork. The student portal presents clear course completion metrics, active quiz statuses, and chapter progress in one clean dashboard.
+      </p>
+      <!-- 5. ESTIMATED STUDY TIME -->
+      <div style="margin-top:24px; padding:16px; background:var(--mist); border-radius:10px; border-left:4px solid var(--forest-deep);">
+        <strong style="color:var(--forest-deep);">⏱ Estimated Study Time:</strong>
+        <p style="font-size:0.9rem; color:var(--stone); margin:4px 0 0;">20–40 minute focused lessons · Average completion: 8–12 weeks per subject.</p>
+      </div>
+    </div>
+
+    <!-- UI Mockup -->
+    <div class="dashboard-mockup">
+      <div class="db-header">
+        <div>
+          <strong style="display:block; font-size:1.1rem;">CSEC Mathematics</strong>
+          <span style="font-size:0.8rem; color:var(--stone);">Syllabus Progress</span>
+        </div>
+        <span class="mono" style="font-size:1.2rem; font-weight:700; color:var(--forest-mid);">68%</span>
+      </div>
+      <div class="db-progress-bar"><div class="db-progress-fill"></div></div>
+      
+      <div class="db-chapter">
+        <span><i data-lucide="check-circle" style="display:inline; width:16px; color:var(--forest-mid);"></i> Section 1: Computation & Number Theory</span>
+        <span class="mono" style="font-size:0.75rem; color:var(--forest-mid);">COMPLETED</span>
+      </div>
+      <div class="db-chapter">
+        <span><i data-lucide="play-circle" style="display:inline; width:16px; color:var(--gold);"></i> Section 2: Consumer Arithmetic</span>
+        <span class="mono" style="font-size:0.75rem; color:var(--gold);">IN PROGRESS</span>
+      </div>
+      <div class="db-chapter">
+        <span><i data-lucide="circle" style="display:inline; width:16px; color:var(--stone-light);"></i> Section 3: Algebra & Relations</span>
+        <span class="mono" style="font-size:0.75rem; color:var(--stone-light);">LOCKED</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ADD "WHAT HAPPENS AFTER I ENROLL?" -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Clear Path</div>
+      <h2>What Happens After You Enroll?</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-step">
+        <div class="timeline-number">1</div>
+        <h4>Enroll</h4>
+        <p style="font-size:0.85rem; color:var(--stone); margin-top:4px;">Register interest & select subjects</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-number">2</div>
+        <h4>Choose Subjects</h4>
+        <p style="font-size:0.85rem; color:var(--stone); margin-top:4px;">Configure single or bundle plan</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-number">3</div>
+        <h4>Start Learning</h4>
+        <p style="font-size:0.85rem; color:var(--stone); margin-top:4px;">Immediate dashboard access</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-number">4</div>
+        <h4>Complete Quizzes</h4>
+        <p style="font-size:0.85rem; color:var(--stone); margin-top:4px;">Check understanding after topics</p>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-number">5</div>
+        <h4>Take Mock Exam</h4>
+        <p style="font-size:0.85rem; color:var(--stone); margin-top:4px;">Simulate real exam conditions</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. ADD INSTRUCTOR INTRODUCTIONS & 8. SYLLABUS REINFORCEMENT -->
+<section style="background:var(--paper);" id="subjects">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Curriculum & Faculty</div>
+      <h2>Built Directly Around the Official CXC Syllabus</h2>
+      <p>Every module is designed by qualified educators to address specific paper 1 and paper 2 objectives.</p>
+    </div>
+
+    <!-- Instructor Card Sample -->
+    <div class="card" style="margin-bottom:40px; display:flex; gap:24px; align-items:center; flex-wrap:wrap;">
+      <div style="width:70px; height:70px; border-radius:50%; background:var(--forest-deep); color:var(--gold); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.4rem;">
+        KP
+      </div>
+      <div>
+        <h3 style="margin:0;">Kaieteur Educator Team</h3>
+        <span style="font-size:0.85rem; color:var(--gold); font-weight:600;">CSEC & CAPE Certified Subject Specialists</span>
+        <p style="font-size:0.9rem; color:var(--stone); margin-top:6px;">
+          Our courses are engineered by experienced Caribbean teachers with proven track records of student Grade I passes.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid-4">
+      <div class="card"><h3>Mathematics</h3><p style="font-size:0.85rem; color:var(--stone-light);">Official CXC Syllabus · 9 Sections</p></div>
+      <div class="card"><h3>English A</h3><p style="font-size:0.85rem; color:var(--stone-light);">Official CXC Syllabus · Paper 1 & 2</p></div>
+      <div class="card"><h3>Social Studies</h3><p style="font-size:0.85rem; color:var(--stone-light);">Official CXC Syllabus · Core Topics</p></div>
+      <div class="card"><h3>Principles of Business</h3><p style="font-size:0.85rem; color:var(--stone-light);">Official CXC Syllabus · Launching Soon</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING & 6. GUARANTEE -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Pricing</div>
+      <h2>Simple, Transparent Subscriptions</h2>
+      <p>Flat monthly rates with no hidden fees or exam add-ons.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card">
+        <p class="mono" style="font-size:0.8rem; letter-spacing:0.05em; opacity:0.75;">1–4 SUBJECTS</p>
+        <div class="price-amount">6,000 <span>GYD / subject / month</span></div>
+        <ul class="price-list">
+          <li><i data-lucide="check" style="color:var(--gold);"></i> Full topic video library</li>
+          <li><i data-lucide="check" style="color:var(--gold);"></i> Check your understanding modules</li>
+          <li><i data-lucide="check" style="color:var(--gold);"></i> Cancel anytime</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <span class="price-flag">BEST VALUE</span>
+        <p class="mono" style="font-size:0.8rem; letter-spacing:0.05em; color:var(--stone);">COMPLETE EXAM PREPARATION (5+ SUBJECTS)</p>
+        <div class="price-amount">5,000 <span>GYD / subject / month</span></div>
+        <ul class="price-list">
+          <li><i data-lucide="check" style="color:var(--forest-mid);"></i> Everything in standard plan</li>
+          <li><i data-lucide="check" style="color:var(--forest-mid);"></i> Timed CSEC mock exams</li>
+          <li><i data-lucide="check" style="color:var(--forest-mid);"></i> Maximum subject savings</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 6. GUARANTEE BOX -->
+    <div class="guarantee-box">
+      <h3 style="color:var(--mist); font-size:1.1rem; margin-bottom:4px;">🛡️ 7-Day Risk-Free Satisfaction Guarantee</h3>
+      <p style="color:#B9CCC2; font-size:0.9rem; margin:0;">
+        Not completely satisfied with the lesson structure within your first 7 days? Contact us for a full refund—no hassle.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Questions</div>
+      <h2>Frequently Asked Questions</h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3>How long do I have access?</h3>
+        <p>Continuous access for as long as your monthly subscription is active. Cancel anytime.</p>
+      </div>
+      <div class="faq-item">
+        <h3>When can I start?</h3>
+        <p>Immediately upon registration—your dashboard activates right away.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Are classes live?</h3>
+        <p>Lessons are pre-recorded so students can pause, rewind, and master topics on their own schedule.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is this the official syllabus?</h3>
+        <p>Yes, all topics map directly to the official CXC/CSEC syllabus objectives.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I study on my phone?</h3>
+        <p>Yes, the platform is fully optimized for smartphones, tablets, and computers.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How do quizzes work?</h3>
+        <p>Auto-graded check-your-understanding questions provide instant feedback after lessons.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNUP FORM -->
+<section class="signup" id="signup">
+  <div class="wrap">
+    <div class="signup-panel">
+      <div class="signup-side">
+        <h3>Tell us what you're sitting</h3>
+        <p>Select your subjects to lock in your subscription rate. No upfront payment required to register interest.</p>
+        <ul>
+          <li><i data-lucide="shield-check"></i> Zero registration fees</li>
+          <li><i data-lucide="message-square"></i> Instant WhatsApp or Email confirmation</li>
+        </ul>
+      </div>
+      <div class="signup-form">
+        <form id="signupForm">
+          <div class="field">
+            <label for="name">Full name</label>
+            <input type="text" id="name" required placeholder="Your name">
+          </div>
+          <div class="field">
+            <label for="contact">Email or WhatsApp number</label>
+            <input type="text" id="contact" required placeholder="you@email.com or +592...">
+          </div>
+          <div class="field">
+            <label>Select Subjects:</label>
+            <div class="subject-checks">
+              <label class="check-item"><input type="checkbox" class="subj" value="6000"> Mathematics</label>
+              <label class="check-item"><input type="checkbox" class="subj" value="6000"> English A</label>
+              <label class="check-item"><input type="checkbox" class="subj" value="6000"> Social Studies</label>
+              <label class="check-item"><input type="checkbox" class="subj" value="6000"> POB*</label>
+            </div>
+          </div>
+          <div class="price-preview" id="pricePreview">Select subjects to see your monthly total.</div>
+          <button type="submit" class="submit-btn" style="width:100%; margin-top:16px;">Start Learning</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. FOOTER IMPROVEMENTS -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><span class="logo-bubble" style="border-color:#fff;background:transparent;"></span>Kaieteur Prep</div>
+        <p style="font-size:0.88rem; max-width:30ch; line-height:1.5;">Structured, self-paced CSEC exam preparation built for Caribbean success.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#who">Who It's For</a></li>
+          <li><a href="#subjects">Subjects</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:support@kaieteurprep.com">support@kaieteurprep.com</a></li>
+          <li><a href="#">WhatsApp Support</a></li>
+          <li><a href="#">Social Media</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Kaieteur Prep. Not affiliated with the Caribbean Examinations Council (CXC).</span>
+      <span>Georgetown, Guyana</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  lucide.createIcons();
+
+  const checks = document.querySelectorAll('.subj');
+  const preview = document.getElementById('pricePreview');
+
+  function updatePreview(){
+    const checked = document.querySelectorAll('.subj:checked');
+    const count = checked.length;
+    if(count === 0){
+      preview.innerHTML = 'Select subjects to see your monthly total.';
+      return;
+    }
+    const rate = count >= 5 ? 5000 : 6000;
+    const total = count * rate;
+    preview.innerHTML = `<strong>${count} subject${count>1?'s':''}</strong> at <strong>GYD ${rate.toLocaleString()}</strong>/subject = <strong>GYD ${total.toLocaleString()}</strong>/month`
+      + (count >= 5 ? ' — bundle rate applied.' : '');
+  }
+  checks.forEach(c => c.addEventListener('change', updatePreview));
+
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 50) { nav.classList.add('scrolled'); } 
+    else { nav.classList.remove('scrolled'); }
+  });
+
+  const toggle = document.querySelector('.nav-toggle');
+  const links = document.querySelector('.nav-links');
+  toggle.addEventListener('click', () => {
+    const open = links.style.display === 'flex';
+    links.style.display = open ? 'none' : 'flex';
+    links.style.cssText += open ? '' : 'position:absolute;top:100%;left:0;right:0;background:#F4F8F5;flex-direction:column;padding:20px 24px;border-bottom:1px solid #DCE6E0;gap:16px;';
+  });
+</script>
+
+</body>
+</html>
