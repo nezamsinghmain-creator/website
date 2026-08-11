@@ -351,9 +351,9 @@
         <span class="mono" style="font-size:0.75rem; color:var(--stone);">22 MINS</span>
       </div>
       <h3 style="margin-top:4px;">Mathematics: Section 1 — Consumer Arithmetic</h3>
-      <div class="https://www.youtube.com/watch?v=50Dcl6XDahs&list=PLLhwCH5BJHpFjoV_VoGsZl6FVvbSlPKhR">
-        <div class="play-btn"><i data-lucide="play" style="margin-left:4px;"></i></div>
-      </div>
+      <a href="https://www.youtube.com/watch?v=50Dcl6XDahs&list=PLLhwCH5BJHpFjoV_VoGsZl6FVvbSlPKhR" target="_blank" class="video-placeholder">
+  <div class="play-btn"><i data-lucide="play" style="margin-left:4px;"></i></div>
+</a>
       <p style="font-size:0.85rem; color:var(--stone); margin-top:12px; text-align:center;">
         ▶ Watch the first lesson free — no credit card or account needed.
       </p>
@@ -499,10 +499,9 @@
       </div>
       <div>
         <h3 style="margin:0;">Caribbean Scholars Team</h3>
-        <span style="font-size:0.85rem; color:var(--gold); font-weight:600;">CSEC & CAPE Certified Subject Specialists</span>
+        <span style="font-size:0.85rem; color:var(--gold); font-weight:600;">Built by Top CSEC Performers</span>
         <p style="font-size:0.9rem; color:var(--stone); margin-top:6px;">
-          Our courses are engineered by experienced Caribbean teachers with proven track records of student Grade I passes.
-        </p>
+          content created by students who scored top grades in these exact subjects.
       </div>
     </div>
 
@@ -714,6 +713,11 @@
     const open = links.style.display === 'flex';
     links.style.display = open ? 'none' : 'flex';
     links.style.cssText += open ? '' : 'position:absolute;top:100%;left:0;right:0;background:#F4F8F5;flex-direction:column;padding:20px 24px;border-bottom:1px solid #DCE6E0;gap:16px;';
+
+  document.getElementById('signupForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  // your success message / Airtable submission logic here
+});
   });
 </script>
 
