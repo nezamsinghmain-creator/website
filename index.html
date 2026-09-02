@@ -301,6 +301,61 @@
   .footer-col a:hover{color:var(--mist);}
   .footer-bottom{font-size:0.8rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 
+    /* Legal Modal (square popup block) */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:1000;
+    background:rgba(16,32,26,0.55);
+    display:none;
+    align-items:center; justify-content:center;
+    padding:24px;
+    backdrop-filter:blur(3px);
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal-box{
+    background:var(--paper);
+    color:var(--ink);
+    width:500px; height:500px;
+    border-radius:18px;
+    box-shadow:0 30px 70px rgba(0,0,0,0.35);
+    display:flex; flex-direction:column;
+    overflow:hidden;
+    animation:modalIn 0.2s ease;
+  }
+  @keyframes modalIn{
+    from{ opacity:0; transform:scale(0.96); }
+    to{ opacity:1; transform:scale(1); }
+  }
+  .modal-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 18px; border-bottom:1px solid var(--border);
+    flex-shrink:0;
+  }
+  .modal-head h3{ font-size:1.25rem; }
+  .modal-close{
+    background:var(--mist); border:1px solid var(--border);
+    width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--stone); transition:background 0.15s, color 0.15s;
+    flex-shrink:0;
+  }
+  .modal-close:hover{ background:var(--forest-deep); color:var(--mist); }
+  .modal-body{
+    padding:18px 24px 24px;
+    overflow-y:auto;
+    font-size:0.95rem;
+    color:var(--stone);
+  }
+  .modal-body p{ margin:0 0 14px; }
+  .modal-body h4{ font-size:1rem; color:var(--forest-deep); margin:16px 0 8px; }
+  .modal-body h4:first-child{ margin-top:0; }
+  .footer-col button.legal-link{
+    background:none; border:none; padding:0; margin:0;
+    text-align:left; font:inherit; cursor:pointer;
+    text-decoration:none; color:#9FB3AB; font-size:0.9rem;
+    transition:color 0.15s;
+  }
+  .footer-col button.legal-link:hover{ color:var(--mist); }
+  
   @media (max-width: 860px){
     .hero-grid, .grid-2, .price-grid, .signup-panel, .faq-grid{grid-template-columns:1fr; gap:32px;}
     .nav-links{display:none;}
@@ -316,6 +371,7 @@
 </head>
 <body>
 
+  
 <!-- NAV -->
 <nav class="nav" id="navbar">
   <div class="nav-inner">
@@ -680,6 +736,39 @@
   </div>
 </footer>
 
+  <!-- LEGAL MODALS -->
+<div class="modal-overlay" id="modal-privacy" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
+    <div class="modal-head">
+      <h3 id="privacy-title">Privacy Policy</h3>
+      <button class="modal-close" data-close><i data-lucide="x"></i></button>
+    </div>
+    <div class="modal-body">
+      <p><em>Placeholder text for testing — replace with final copy.</em></p>
+      <h4>Lorem Ipsum</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <h4>Information We Collect</h4>
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-terms" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="terms-title">
+    <div class="modal-head">
+      <h3 id="terms-title">Terms of Service</h3>
+      <button class="modal-close" data-close><i data-lucide="x"></i></button>
+    </div>
+    <div class="modal-body">
+      <p><em>Placeholder text for testing — replace with final copy.</em></p>
+      <h4>Lorem Ipsum</h4>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <h4>Subscriptions & Billing</h4>
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+    </div>
+  </div>
+</div>
+  
 <script>
   lucide.createIcons();
 
@@ -717,6 +806,39 @@
   e.preventDefault();
   // your success message / Airtable submission logic here
 });
+
+
+    // ---- Legal modal logic ----
+  function openModal(id){
+    const overlay = document.getElementById('modal-' + id);
+    if(!overlay) return;
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(overlay){
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('[data-modal]').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      openModal(trigger.getAttribute('data-modal'));
+    });
+  });
+
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if(e.target === overlay) closeModal(overlay);
+    });
+    overlay.querySelector('[data-close]').addEventListener('click', () => closeModal(overlay));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape'){
+      document.querySelectorAll('.modal-overlay.open').forEach(closeModal);
+    }
   });
 </script>
 
