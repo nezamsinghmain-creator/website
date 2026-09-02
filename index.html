@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -183,7 +183,6 @@
   /* Trust Bar */
   .trust-bar{
     background:var(--paper);
-    border-y:1px solid var(--border);
     padding:28px 0;
   }
   .trust-flex{
@@ -242,13 +241,76 @@
   .timeline-step{ background:var(--paper); border:1px solid var(--border); border-radius:var(--radius); padding:20px; text-align:center; }
   .timeline-number{ width:32px;height:32px;border-radius:50%;background:var(--forest-deep);color:var(--mist);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-family:'Space Mono',monospace;font-weight:700; }
 
-  /* Comparison Table */
-  .comparison-table-wrapper{ overflow-x:auto; border-radius:var(--radius); border:1px solid var(--border); background:var(--paper); }
-  .comparison-table{ width:100%; border-collapse:collapse; text-align:left; }
-  .comparison-table th, .comparison-table td{ padding:20px 24px; border-bottom:1px solid var(--border); }
-  .comparison-table th{ background:var(--mist); font-family:'Zilla Slab', serif; font-size:1.2rem; color:var(--forest-deep); }
-  .text-danger{color:var(--danger);}
-  .text-success{color:var(--forest-mid);}
+  /* Territory Section */
+  .territory-select{
+    width:100%;
+    padding:14px 16px;
+    border-radius:10px;
+    border:1.5px solid var(--border);
+    font-family:inherit;
+    font-size:0.95rem;
+    font-weight:500;
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    appearance:none;
+    background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2312372A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+    background-size:18px;
+    transition:border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .territory-select:focus{
+    outline:none;
+    border-color:var(--forest-deep);
+    box-shadow:0 0 0 3px rgba(18,55,42,0.1);
+  }
+  .territory-info-card{
+    background:var(--paper);
+    border:1.5px solid var(--border);
+    border-radius:12px;
+    padding:20px;
+    margin-top:20px;
+    transition:all 0.2s ease;
+  }
+  .territory-info-card.active{
+    border-color:var(--forest-mid);
+    background:#EAF2ED;
+  }
+  .map-card{
+    background:var(--paper);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:16px;
+    box-shadow:0 20px 40px -15px rgba(18,55,42,0.08);
+  }
+  .map-img-wrapper{
+    width:100%;
+    border-radius:12px;
+    overflow:hidden;
+    background:#E4EEE8;
+    aspect-ratio:16/10;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .map-img-wrapper img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:transform 0.3s ease;
+  }
+  .map-card:hover .map-img-wrapper img{
+    transform:scale(1.02);
+  }
+  .map-caption{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px;
+    padding:12px 6px 4px;
+  }
 
   /* Pricing */
   .pricing{background:var(--forest-deep);color:var(--mist);}
@@ -301,7 +363,7 @@
   .footer-col a:hover{color:var(--mist);}
   .footer-bottom{font-size:0.8rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 
-  /* Legal Modal (square popup block) */
+  /* Legal Modal */
   .modal-overlay{
     position:fixed; inset:0; z-index:1000;
     background:rgba(16,32,26,0.55);
@@ -378,6 +440,7 @@
     <a href="#top" class="logo"><span class="logo-bubble"></span>Caribbean Scholars</a>
     <div class="nav-links">
       <a href="#subjects">Subjects</a>
+      <a href="#territories">Territories</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
       <a href="#signup" class="nav-cta">Get started</a>
@@ -399,7 +462,7 @@
       </div>
     </div>
 
-    <!-- 1. ADD A "FREE LESSON" PREVIEW CARD -->
+    <!-- FREE LESSON PREVIEW CARD -->
     <div class="free-lesson-card" id="demo-lesson">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <span class="mono" style="font-size:0.75rem; color:var(--gold); font-weight:700;">FREE SAMPLE LESSON</span>
@@ -407,8 +470,8 @@
       </div>
       <h3 style="margin-top:4px;">Mathematics: Section 1 — Consumer Arithmetic</h3>
       <a href="https://www.youtube.com/watch?v=50Dcl6XDahs&list=PLLhwCH5BJHpFjoV_VoGsZl6FVvbSlPKhR" target="_blank" class="video-placeholder">
-  <div class="play-btn"><i data-lucide="play" style="margin-left:4px;"></i></div>
-</a>
+        <div class="play-btn"><i data-lucide="play" style="margin-left:4px;"></i></div>
+      </a>
       <p style="font-size:0.85rem; color:var(--stone); margin-top:12px; text-align:center;">
         ▶ Watch the first lesson free — no credit card or account needed.
       </p>
@@ -426,7 +489,7 @@
   </div>
 </div>
 
-<!-- 3. ADD "WHO IS THIS FOR?" -->
+<!-- WHO IS THIS FOR? -->
 <section id="who">
   <div class="wrap">
     <div class="section-head">
@@ -458,7 +521,7 @@
   </div>
 </section>
 
-<!-- 2. SHOW ACTUAL STUDENT DASHBOARD -->
+<!-- STUDENT DASHBOARD -->
 <section style="background:var(--paper);">
   <div class="wrap grid-2" style="align-items:center;">
     <div>
@@ -467,7 +530,6 @@
       <p style="color:var(--stone); margin-top:16px;">
         No guesswork. The student portal presents clear course completion metrics, active quiz statuses, and chapter progress in one clean dashboard.
       </p>
-      <!-- 5. ESTIMATED STUDY TIME -->
       <div style="margin-top:24px; padding:16px; background:var(--mist); border-radius:10px; border-left:4px solid var(--forest-deep);">
         <strong style="color:var(--forest-deep);">⏱ Estimated Study Time:</strong>
         <p style="font-size:0.9rem; color:var(--stone); margin:4px 0 0;">20–40 minute focused lessons · Average completion: 8–12 weeks per subject.</p>
@@ -501,7 +563,7 @@
   </div>
 </section>
 
-<!-- 4. ADD "WHAT HAPPENS AFTER I ENROLL?" -->
+<!-- WHAT HAPPENS AFTER ENROLL -->
 <section>
   <div class="wrap">
     <div class="section-head">
@@ -538,7 +600,7 @@
   </div>
 </section>
 
-<!-- 7. ADD INSTRUCTOR INTRODUCTIONS & 8. SYLLABUS REINFORCEMENT -->
+<!-- SUBJECTS & SYLLABUS -->
 <section style="background:var(--paper);" id="subjects">
   <div class="wrap">
     <div class="section-head">
@@ -556,7 +618,8 @@
         <h3 style="margin:0;">Caribbean Scholars Team</h3>
         <span style="font-size:0.85rem; color:var(--gold); font-weight:600;">Built by Top CSEC Performers</span>
         <p style="font-size:0.9rem; color:var(--stone); margin-top:6px;">
-          content created by students who scored top grades in these exact subjects.
+          Content created by students who scored top grades in these exact subjects.
+        </p>
       </div>
     </div>
 
@@ -575,7 +638,69 @@
   </div>
 </section>
 
-<!-- PRICING & 6. GUARANTEE -->
+<!-- TERRITORIES / REGIONAL AVAILABILITY -->
+<section id="territories">
+  <div class="wrap grid-2" style="align-items:center;">
+    <div>
+      <div class="eyebrow">Regional Reach</div>
+      <h2>Available Across All 16 CSEC Territories</h2>
+      <p style="color:var(--stone); margin-top:16px;">
+        Because our curriculum is aligned directly with the Caribbean Examinations Council (CXC) standards, students sitting exams across the region have full, on-demand access to every lesson, quiz, and past-paper mock.
+      </p>
+
+      <div style="margin-top:28px;">
+        <label for="territorySelect" style="display:block; font-size:0.9rem; font-weight:600; margin-bottom:8px;">Check availability in your country:</label>
+        <select id="territorySelect" class="territory-select">
+          <option value="" disabled selected>Select your territory (16 participating countries)...</option>
+          <option value="Anguilla">Anguilla</option>
+          <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+          <option value="Barbados">Barbados</option>
+          <option value="Belize">Belize</option>
+          <option value="British Virgin Islands">British Virgin Islands</option>
+          <option value="Cayman Islands">Cayman Islands</option>
+          <option value="Dominica">Dominica</option>
+          <option value="Grenada">Grenada</option>
+          <option value="Guyana">Guyana</option>
+          <option value="Jamaica">Jamaica</option>
+          <option value="Montserrat">Montserrat</option>
+          <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+          <option value="Saint Lucia">Saint Lucia</option>
+          <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+          <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+          <option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
+        </select>
+      </div>
+
+      <div id="territoryStatus" class="territory-info-card">
+        <div style="display:flex; align-items:center; gap:10px; color:var(--forest-deep); font-weight:600;">
+          <i data-lucide="check-circle-2" style="color:var(--forest-mid); width:20px; height:20px; flex-shrink:0;"></i>
+          <span id="territoryTitle">100% CXC Syllabus Coverage</span>
+        </div>
+        <p id="territoryDesc" style="font-size:0.9rem; color:var(--stone); margin:8px 0 0;">
+          Select your country from the list above to view coverage details and syllabus support.
+        </p>
+      </div>
+    </div>
+
+    <!-- Map Card -->
+    <div class="map-card">
+      <div class="map-img-wrapper">
+        <img 
+          src="ChatGPT Image Sep 2, 2026, 11_06_48 AM.png" 
+          alt="Map of the Caribbean Sea and its island territories" 
+          loading="lazy"style="width: 460px;height: 303px;">
+      </div>
+      <div class="map-caption">
+        <span class="mono" style="font-size:0.75rem; color:var(--forest-deep); font-weight:700;">
+          <i data-lucide="globe" style="display:inline-block; width:14px; height:14px; vertical-align:-2px; color:var(--gold);"></i> 16 PARTICIPATING TERRITORIES
+        </span>
+        <span style="font-size:0.8rem; color:var(--stone);">Official CXC Regional Territory</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING & GUARANTEE -->
 <section class="pricing" id="pricing">
   <div class="wrap">
     <div class="section-head">
@@ -605,7 +730,7 @@
       </div>
     </div>
 
-    <!-- 6. GUARANTEE BOX -->
+    <!-- GUARANTEE BOX -->
     <div class="guarantee-box">
       <h3 style="color:var(--mist); font-size:1.1rem; margin-bottom:4px;">🛡️ 7-Day Risk-Free Satisfaction Guarantee</h3>
       <p style="color:#B9CCC2; font-size:0.9rem; margin:0;">
@@ -674,7 +799,10 @@
             <input type="text" id="contact" required placeholder="you@email.com or +592...">
           </div>
           <div class="field">
-            <label>Select Subjects:</label>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <label style="margin:0;">Select Subjects:</label>
+              <button type="button" id="clearSubjects" style="background:none; border:none; color:var(--stone); font-size:0.8rem; font-weight:600; cursor:pointer; padding:0; text-decoration:underline; transition:color 0.15s;" onmouseover="this.style.color='var(--forest-deep)'" onmouseout="this.style.color='var(--stone)'">Clear all</button>
+            </div>
             <div class="subject-checks">
               <label class="check-item"><input type="checkbox" class="subj" value="6000"> Mathematics</label>
               <label class="check-item"><input type="checkbox" class="subj" value="6000"> English A</label>
@@ -696,7 +824,7 @@
   </div>
 </section>
 
-<!-- 9. FOOTER IMPROVEMENTS -->
+<!-- FOOTER -->
 <footer>
   <div class="wrap">
     <div class="footer-grid">
@@ -709,6 +837,7 @@
         <ul>
           <li><a href="#who">Who It's For</a></li>
           <li><a href="#subjects">Subjects</a></li>
+          <li><a href="#territories">Territories</a></li>
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
@@ -772,8 +901,10 @@
 <script>
   lucide.createIcons();
 
+  // Price Calculator & Clear Subjects Functionality
   const checks = document.querySelectorAll('.subj');
   const preview = document.getElementById('pricePreview');
+  const clearBtn = document.getElementById('clearSubjects');
 
   function updatePreview(){
     const checked = document.querySelectorAll('.subj:checked');
@@ -787,14 +918,41 @@
     preview.innerHTML = `<strong>${count} subject${count>1?'s':''}</strong> at <strong>GYD ${rate.toLocaleString()}</strong>/subject = <strong>GYD ${total.toLocaleString()}</strong>/month`
       + (count >= 5 ? ' — bundle rate applied.' : '');
   }
+
   checks.forEach(c => c.addEventListener('change', updatePreview));
 
+  if(clearBtn){
+    clearBtn.addEventListener('click', () => {
+      checks.forEach(c => c.checked = false);
+      updatePreview();
+    });
+  }
+
+  // Territory Dropdown Interactive Listener
+  const territorySelect = document.getElementById('territorySelect');
+  const territoryStatus = document.getElementById('territoryStatus');
+  const territoryTitle = document.getElementById('territoryTitle');
+  const territoryDesc = document.getElementById('territoryDesc');
+
+  if(territorySelect){
+    territorySelect.addEventListener('change', function(){
+      const country = this.value;
+      if(country){
+        territoryStatus.classList.add('active');
+        territoryTitle.textContent = `Full Coverage in ${country}`;
+        territoryDesc.innerHTML = `Students in <strong>${country}</strong> have 100% platform access to all CSEC video lessons, topical quizzes, and Paper 1 & 2 exam preps aligned with the regional CXC syllabus.`;
+      }
+    });
+  }
+
+  // Navbar Scroll
   window.addEventListener('scroll', () => {
     const nav = document.getElementById('navbar');
     if (window.scrollY > 50) { nav.classList.add('scrolled'); } 
     else { nav.classList.remove('scrolled'); }
   });
 
+  // Mobile Nav Toggle
   const toggle = document.querySelector('.nav-toggle');
   const links = document.querySelector('.nav-links');
   toggle.addEventListener('click', () => {
@@ -805,10 +963,9 @@
 
   document.getElementById('signupForm').addEventListener('submit', function(e){
     e.preventDefault();
-    // your success message / Airtable submission logic here
   });
 
-  // ---- Legal modal logic ----
+  // Legal Modals
   function openModal(id){
     const overlay = document.getElementById('modal-' + id);
     if(!overlay) return;
