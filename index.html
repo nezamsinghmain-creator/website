@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -301,7 +301,7 @@
   .footer-col a:hover{color:var(--mist);}
   .footer-bottom{font-size:0.8rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 
-    /* Legal Modal (square popup block) */
+  /* Legal Modal (square popup block) */
   .modal-overlay{
     position:fixed; inset:0; z-index:1000;
     background:rgba(16,32,26,0.55);
@@ -355,7 +355,7 @@
     transition:color 0.15s;
   }
   .footer-col button.legal-link:hover{ color:var(--mist); }
-  
+
   @media (max-width: 860px){
     .hero-grid, .grid-2, .price-grid, .signup-panel, .faq-grid{grid-template-columns:1fr; gap:32px;}
     .nav-links{display:none;}
@@ -366,12 +366,12 @@
   }
   @media (max-width: 480px){
     .subject-checks, .footer-grid{grid-template-columns:1fr;}
+    .modal-box{ width:100%; max-width:500px; height:auto; max-height:80vh; }
   }
 </style>
 </head>
 <body>
 
-  
 <!-- NAV -->
 <nav class="nav" id="navbar">
   <div class="nav-inner">
@@ -716,8 +716,8 @@
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
+          <li><button type="button" class="legal-link" data-modal="privacy">Privacy Policy</button></li>
+          <li><button type="button" class="legal-link" data-modal="terms">Terms of Service</button></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -736,7 +736,7 @@
   </div>
 </footer>
 
-  <!-- LEGAL MODALS -->
+<!-- LEGAL MODALS -->
 <div class="modal-overlay" id="modal-privacy" aria-hidden="true">
   <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
     <div class="modal-head">
@@ -768,7 +768,7 @@
     </div>
   </div>
 </div>
-  
+
 <script>
   lucide.createIcons();
 
@@ -801,14 +801,14 @@
     const open = links.style.display === 'flex';
     links.style.display = open ? 'none' : 'flex';
     links.style.cssText += open ? '' : 'position:absolute;top:100%;left:0;right:0;background:#F4F8F5;flex-direction:column;padding:20px 24px;border-bottom:1px solid #DCE6E0;gap:16px;';
+  });
 
   document.getElementById('signupForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  // your success message / Airtable submission logic here
-});
+    e.preventDefault();
+    // your success message / Airtable submission logic here
+  });
 
-
-    // ---- Legal modal logic ----
+  // ---- Legal modal logic ----
   function openModal(id){
     const overlay = document.getElementById('modal-' + id);
     if(!overlay) return;
