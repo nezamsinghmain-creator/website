@@ -762,7 +762,17 @@
             </div>
           </div>
           <div class="price-preview" id="pricePreview">Select subjects to see your monthly total.</div>
-          <button type="button" class="submit-btn" style="width:100%; margin-top:16px;" onclick="window.location.href='https://buy.stripe.com/test_6oU4gz9Tt3JO0UG3L61RC00'">Start Learning</button>
+
+          <div class="field" style="display:flex; align-items:flex-start; gap:10px; margin-top:20px; margin-bottom:0;">
+            <input type="checkbox" id="consentCheck" style="margin-top:3px; width:16px; height:16px; accent-color:var(--forest-deep); flex-shrink:0; cursor:pointer;">
+            <label for="consentCheck" style="font-size:0.83rem; color:var(--stone); font-weight:400; line-height:1.5; cursor:pointer;">
+              I confirm I am 18 or older, or I am the parent/guardian of the student named above, and I agree to the
+              <a href="terms-of-service.html" target="_blank" style="color:var(--forest-mid); text-decoration:underline;">Terms of Service</a>
+              and <a href="privacy-policy.html" target="_blank" style="color:var(--forest-mid); text-decoration:underline;">Privacy Policy</a>.
+            </label>
+          </div>
+
+          <button type="button" id="startLearningBtn" class="submit-btn" style="width:100%; margin-top:16px; opacity:0.5; cursor:not-allowed;" disabled>Start Learning</button>
         </form>
       </div>
     </div>
@@ -872,6 +882,36 @@
     links.style.display = open ? 'none' : 'flex';
     links.style.cssText += open ? '' : 'position:absolute;top:100%;left:0;right:0;background:#F4F8F5;flex-direction:column;padding:20px 24px;border-bottom:1px solid #DCE6E0;gap:16px;';
   });
+
+  document.getElementById('signupForm').addEventListener('submit', function(e){
+    e.preventDefault();
+  });
+
+    // Terms/Privacy consent gate
+  const consentCheck = document.getElementById('consentCheck');
+  const startLearningBtn = document.getElementById('startLearningBtn');
+
+  if(consentCheck && startLearningBtn){
+    consentCheck.addEventListener('change', () => {
+      startLearningBtn.disabled = !consentCheck.checked;
+      startLearningBtn.style.opacity = consentCheck.checked ? '1' : '0.5';
+      startLearningBtn.style.cursor = consentCheck.checked ? 'pointer' : 'not-allowed';
+    });
+
+    startLearningBtn.addEventListener('click', () => {
+      if(!consentCheck.checked) return; // safety guard, button should already be disabled
+
+      // Record consent (timestamp + which policy version was agreed to) alongside
+      // the rest of the signup data before sending to Airtable/Zapier — e.g.:
+      // const consentRecord = {
+      //   agreedAt: new Date().toISOString(),
+      //   termsVersion: 'Sept 2, 2026',
+      //   privacyVersion: 'Sept 2, 2026'
+      // };
+
+      window.location.href = 'https://buy.stripe.com/test_6oU4gz9Tt3JO0UG3L61RC00';
+    });
+  }
 
   document.getElementById('signupForm').addEventListener('submit', function(e){
     e.preventDefault();
