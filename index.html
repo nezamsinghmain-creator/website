@@ -915,7 +915,7 @@
 
     // 3. Send the data to your n8n Production Webhook
     try {
-      await fetch('YOUR_N8N_PRODUCTION_URL_HERE', {
+      await fetch('http://localhost:5678/webhook/moodle-enrollment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
