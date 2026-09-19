@@ -898,19 +898,40 @@
       startLearningBtn.style.cursor = consentCheck.checked ? 'pointer' : 'not-allowed';
     });
 
-    startLearningBtn.addEventListener('click', () => {
-      if(!consentCheck.checked) return; // safety guard, button should already be disabled
+    startLearningBtn.addEventListener('click', async () => {
+    if(!consentCheck.checked) return; // safety guard
 
-      // Record consent (timestamp + which policy version was agreed to) alongside
-      // the rest of the signup data before sending to Airtable/Zapier — e.g.:
-      // const consentRecord = {
-      //   agreedAt: new Date().toISOString(),
-      //   termsVersion: 'Sept 2, 2026',
-      //   privacyVersion: 'Sept 2, 2026'
-      // };
+    // 1. Grab the form values
+    const fullName = document.getElementById('name').value.trim();
+    const contactInfo = document.getElementById('contact').value.trim();
 
-      window.location.href = 'https://buy.stripe.com/test_6oU4gz9Tt3JO0UG3L61RC00';
-    });
+    // 2. Split the full name into first and last for Airtable
+    const nameParts = fullName.split(' ');
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
+
+    // Optional: Update button text so the user knows it's loading
+    startLearningBtn.textContent = 'Redirecting...';
+
+    // 3. Send the data to your n8n Production Webhook
+    try {
+      await fetch('YOUR_N8N_PRODUCTION_URL_HERE', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          email: contactInfo
+        })
+      });
+    } catch (error) {
+      console.error('Webhook failed:', error);
+      // We still want them to go to checkout even if the webhook silently fails!
+    }
+
+    // 4. Send them to Stripe
+    window.location.href = 'https://buy.stripe.com/test_6oU4gz9Tt3JO0UG3L61RC00';
+  });
   }
 
   document.getElementById('signupForm').addEventListener('submit', function(e){
